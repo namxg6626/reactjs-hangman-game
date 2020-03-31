@@ -9,9 +9,19 @@ class ContextProvider extends Component {
     pass: 0
   };
 
+  handleKeyUp = e => {
+    console.log("hello from keyup");
+    console.log(String.fromCharCode(e.keyCode || e.which));
+  };
+
   render() {
     return (
-      <AppContext.Provider value={{ ...this.state }}>
+      <AppContext.Provider
+        value={{
+          ...this.state,
+          handleKeyUp: this.handleKeyUp
+        }}
+      >
         {this.props.children}
       </AppContext.Provider>
     );
@@ -20,4 +30,14 @@ class ContextProvider extends Component {
 
 const ContextConsumer = AppContext.Consumer;
 
-export { ContextProvider, ContextConsumer, AppContext };
+function withConsumer(Component) {
+  return function ConsumerWrapper(props) {
+    return (
+      <ContextConsumer>
+        {value => <Component {...props} context={value}></Component>}
+      </ContextConsumer>
+    );
+  };
+}
+
+export { ContextProvider, ContextConsumer, AppContext, withConsumer };

@@ -3,6 +3,8 @@ import "./App.scss";
 import Header from "./components/Header";
 import { useContext } from "react";
 import { AppContext } from "./context";
+import Hangman from "./components/Hangman";
+import VirtualKeyBoard from "./components/VirtualKeyBoard";
 
 class App extends React.Component {
   static contextType = AppContext;
@@ -16,6 +18,9 @@ class App extends React.Component {
           fb="https://fb.com/le.van.nam.192"
           github="https://github.com/namxg6626"
         />
+        <Hangman />
+
+        <VirtualKeyBoard />
       </div>
     );
   }

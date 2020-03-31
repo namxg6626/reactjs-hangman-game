@@ -55,3 +55,31 @@ body {
     }
   }
 }
+
+.hangman {
+  display: flex;
+  justify-content: center;
+}
+
+.keyboard {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 7rem;
+
+  .key {
+    flex-basis: 8%;
+    margin: 1%;
+
+    .button {
+      background-color: var(--dark);
+      padding: 1rem;
+      font-size: 2rem;
+      text-align: center;
+      border-radius: 5px;
+      border: 1px solid var(--secondary);
+      border-bottom: 3px solid var(--secondary);
+      z-index: 10;
+    }
+  }
+}
