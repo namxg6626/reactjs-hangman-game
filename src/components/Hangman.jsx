@@ -1,11 +1,10 @@
 import React from "react";
 import { withConsumer } from "../context";
-import imagesJson from "../imagesJson";
+import imagesJson from "../images/imagesJson";
 
 function Hangman(props) {
   const { wrongAnswers } = props.context;
   const { images } = imagesJson;
-  console.log(wrongAnswers);
 
   return (
     <div className="hangman">

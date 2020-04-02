@@ -24,11 +24,12 @@ body {
 
 .app {
   width: 100%;
-  max-width: 70vw;
+  max-width: 1300px;
   // background-color: var(--secondary);
   height: 100vh;
   margin: 0 auto;
   padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 .header {
@@ -59,27 +60,116 @@ body {
 .hangman {
   display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
 }
 
-.keyboard {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 0 7rem;
+.virtual-keyboard {
+  .question-block {
+    text-align: center;
+    margin-bottom: 2rem;
 
-  .key {
-    flex-basis: 8%;
-    margin: 1%;
-
-    .button {
-      background-color: var(--dark);
-      padding: 1rem;
+    .question {
       font-size: 2rem;
-      text-align: center;
-      border-radius: 5px;
-      border: 1px solid var(--secondary);
-      border-bottom: 3px solid var(--secondary);
-      z-index: 10;
+      color: var(--danger);
+      margin-bottom: 1rem;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    .answer {
+      font-size: 1.5rem;
+      letter-spacing: 1rem;
+      color: var(--infor);
+    }
+  }
+
+  .keyboard {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+
+    .key {
+      flex-basis: 8%;
+      margin: 1%;
+
+      .button {
+        background-color: var(--dark);
+        padding: 1rem;
+        font-size: 2rem;
+        text-align: center;
+        border-radius: 7px;
+        border: 1px solid var(--secondary);
+        border-bottom: 4px solid var(--secondary);
+        z-index: 10;
+
+        &:active {
+          background-color: var(--secondary);
+          border: 1px solid var(--dark);
+          border-bottom: 4px solid var(--dark);
+        }
+      }
+      .wrong-key {
+        background-color: var(--warning);
+        border: 1px solid var(--danger);
+        border-bottom: 4px solid var(--danger);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 412px) {
+  .header {
+    display: block;
+    &__split:first-child {
+      margin-bottom: 1rem;
+    }
+  }
+  .virtual-keyboard {
+    .question-block {
+      .question {
+        font-size: 1.2rem;
+      }
+      .answer {
+        font-size: 1.2rem;
+      }
+    }
+    .keyboard {
+      max-width: 100%;
+      margin-bottom: 2rem;
+      .key {
+        .button {
+          font-size: 1rem;
+          padding: 0.5rem 0.3rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .virtual-keyboard {
+    .question-block {
+      .question {
+        font-size: 1.7rem;
+      }
+      .answer {
+        font-size: 1.5rem;
+      }
+    }
+    .keyboard {
+      max-width: 100%;
+      margin-bottom: 2rem;
+      .key {
+        .button {
+          font-size: 1.4rem;
+          padding: 0.5rem 0.3rem;
+        }
+      }
     }
   }
 }

@@ -16,13 +16,13 @@ export default function Header(props) {
       <div className="header__split">
         <p>
           <i className="fab fa-github"></i>
-          <a href={github} target="_blank">
+          <a href={github} target="_blank" rel="noopener noreferrer">
             {getNonProtocolLink(github)}
           </a>
         </p>
         <p>
           <i className="fab fa-facebook"></i>
-          <a href={fb} target="_blank">
+          <a href={fb} target="_blank" rel="noopener noreferrer">
             {getNonProtocolLink(fb)}
           </a>
         </p>
