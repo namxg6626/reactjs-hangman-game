@@ -129,17 +129,24 @@ body {
   .app {
     padding: 0.3rem;
   }
+
   .header {
     display: block;
     &__split:first-child {
       margin-bottom: 1rem;
     }
   }
+
+  .hangman {
+    margin-top: -3rem;
+  }
+
   .virtual-keyboard {
     .question-block {
       .question {
         font-size: 1.2rem;
       }
+
       .answer {
         font-size: 1.2rem;
       }
