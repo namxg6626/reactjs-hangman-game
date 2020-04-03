@@ -12,8 +12,11 @@ export default function Header(props) {
     <header className="header">
       <div className="header__split">
         <h2>{title}</h2>
+        <label htmlFor="expand">ツ About me</label>
       </div>
-      <div className="header__split">
+
+      <input type="checkbox" name="expand" id="expand" />
+      <div className="header__split" id="mobile-closable">
         <p>
           <i className="fab fa-github"></i>
           <a href={github} target="_blank" rel="noopener noreferrer">

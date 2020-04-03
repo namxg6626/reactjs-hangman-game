@@ -19,8 +19,7 @@
 body {
   background-color: #0c0c13;
   color: white;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: "Ubuntu";
 }
 
 .app {
@@ -35,10 +34,17 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
+
+  label,
+  input {
+    display: none;
+  }
+
   h2 {
     text-transform: capitalize;
     font-weight: 500;
   }
+
   &__split {
     p {
       margin-bottom: 0.5rem;
@@ -132,8 +138,33 @@ body {
 
   .header {
     display: block;
+
     &__split:first-child {
       margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__split {
+      transition: all 0.2s;
+    }
+
+    label {
+      display: block;
+    }
+
+    input + &__split {
+      height: 0;
+      overflow: hidden;
+    }
+
+    input:checked + &__split {
+      height: 58px;
+    }
+
+    &__split h2 {
+      display: inline;
     }
   }
 
