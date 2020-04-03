@@ -27,7 +27,6 @@ body {
   width: 100%;
   max-width: 1300px;
   // background-color: var(--secondary);
-  height: 100vh;
   margin: 0 auto;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -127,6 +126,9 @@ body {
 }
 
 @media screen and (max-width: 412px) {
+  .app {
+    padding: 0.3rem;
+  }
   .header {
     display: block;
     &__split:first-child {
@@ -142,10 +144,15 @@ body {
         font-size: 1.2rem;
       }
     }
+
     .keyboard {
       max-width: 100%;
       margin-bottom: 2rem;
+
       .key {
+        flex-basis: 9%;
+        margin: 0.5%;
+
         .button {
           font-size: 1rem;
           padding: 0.5rem 0.3rem;

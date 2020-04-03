@@ -95,7 +95,7 @@ class KeyBoard extends Component {
           {loading ? (
             <>
               <p className="question">Đợi một chút...</p>
-              <p className="answer">Please wait a second...</p>
+              <p>Cá mập đang cắn cáp...</p>
             </>
           ) : (
             <>
