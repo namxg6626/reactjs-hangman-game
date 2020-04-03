@@ -6,6 +6,8 @@ import KeyBoard from "./components/KeyBoard";
 
 class App extends React.Component {
   render() {
+    console.log("dmmmccccc");
+
     return (
       <div className="app">
         <Header

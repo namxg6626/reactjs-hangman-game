@@ -19,7 +19,8 @@ class ContextProvider extends Component {
       wrongAnswers: 0,
       wrongKeys: [], // array of keyCode transformed to character
       hiddenText: this.toHiddenText(this.getAnswer(0)),
-      loading: true
+      loading: true,
+      isLose: false
     };
     this.toHiddenText = this.toHiddenText.bind(this);
   }
@@ -27,9 +28,7 @@ class ContextProvider extends Component {
   componentDidMount() {
     getFirebaseQuestions()
       .then(result => {
-        questions = Object.entries(result).map(question => {
-          return { [question[0]]: question[1] };
-        });
+        questions = result;
         this.resetGame();
       })
       .catch(err => {
@@ -49,8 +48,6 @@ class ContextProvider extends Component {
 
   showCharacters = (...characters) => {
     return new Promise(resolve => {
-      console.log(characters);
-
       const { answer, hiddenText } = this.state;
       const answerLowerCase = answer.toLowerCase();
 
@@ -88,7 +85,7 @@ class ContextProvider extends Component {
       let { questionIndex: newQuestionIndex } = this.state;
       newQuestionIndex += 1;
       if (newQuestionIndex >= questions.length) {
-        alert("You Wont!!!!!!");
+        alert("You Won!!!!!!");
         this.resetGame().then(nothing => resolve());
         return;
       }
@@ -110,15 +107,10 @@ class ContextProvider extends Component {
     return new Promise(resolve => {
       const { wrongAnswers } = this.state;
       if (wrongAnswers === 5) {
-        this.setState(
-          {
-            wrongAnswers: 6
-          },
-          () => {
-            alert("You Lose!!!!");
-            this.resetGame().then(nothing => resolve());
-          }
-        );
+        this.setState({
+          wrongAnswers: 6,
+          isLose: true
+        });
         return;
       }
       this.setState(
@@ -141,7 +133,8 @@ class ContextProvider extends Component {
           wrongAnswers: 0,
           hiddenText: this.toHiddenText(this.getAnswer(0)),
           wrongKeys: [], // array of keyCode transformed to character
-          loading: false
+          loading: false,
+          isLose: false
         },
         resolve
       );
@@ -156,7 +149,8 @@ class ContextProvider extends Component {
           increaseWrongAnswers: this.increaseWrongAnswers,
           nextQuestion: this.nextQuestion,
           toHiddenText: this.toHiddenText.bind(this),
-          showCharacters: this.showCharacters
+          showCharacters: this.showCharacters,
+          resetGame: this.resetGame
         }}
       >
         {this.props.children}

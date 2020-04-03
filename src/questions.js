@@ -42,8 +42,12 @@ function getFirebaseQuestions() {
   return new Promise(resolve => {
     hangmanQst.on("value", qst => {
       let questions = [];
-      if (qst.val()) questions = qst.val();
-      else questions = defaultQuestions;
+      if (qst.val()) {
+        questions = qst.val();
+        questions = Object.entries(questions).map(question => {
+          return { [question[0]]: question[1] };
+        });
+      } else questions = defaultQuestions;
       resolve(questions);
     });
   });

@@ -33,13 +33,12 @@ class KeyBoard extends Component {
   }
 
   detectKeyUp(e) {
-    let key = e.key;
-    console.log(key);
-    // detect only numeric alphabet key
-    if (/^[\w\W]{1}$/.test(key)) {
-      key = key.toLowerCase();
-      this.processKeyUp(key);
-    }
+    let key = e.key.toLowerCase();
+    const { isLose } = this.props.context;
+
+    // detect only numeric alphabet key, which is consist only 1 char
+    if (/^[\w\W]{1}$/.test(key)) this.processKeyUp(key);
+    if (isLose && key === "enter") this.resetGame();
   }
 
   // public
@@ -86,26 +85,29 @@ class KeyBoard extends Component {
   };
 
   render() {
-    const { question, hiddenText } = this.state;
-    const { wrongKeys, loading } = this.props.context;
+    const { question, hiddenText, answer } = this.state;
+    const { wrongKeys, loading, isLose } = this.props.context;
     !loading && window.addEventListener("keyup", this.detectKeyUp);
 
     return (
       <div className="virtual-keyboard">
         <div className="question-block">
           {loading ? (
-            <p className="question">Questions are loading...</p>
+            <>
+              <p className="question">Đợi một chút...</p>
+              <p className="answer">Please wait a second...</p>
+            </>
           ) : (
             <>
               <p className="question">{question + " ?"}</p>
-              <p className="answer">{hiddenText}</p>
+              <p className="answer">{isLose ? answer : hiddenText}</p>
             </>
           )}
         </div>
         {!loading && (
-          <>
-            <div className="keyboard">
-              {"qwertyuiopasdfghjkl;zxcvbnm,.".split("").map((key, id) => {
+          <div className="keyboard">
+            {!isLose ? (
+              "qwertyuiopasdfghjkl;zxcvbnm,.".split("").map((key, id) => {
                 if (wrongKeys.includes(key))
                   return (
                     <Key
@@ -123,9 +125,15 @@ class KeyBoard extends Component {
                     processKeyUp={this.processKeyUp.bind(this, key)}
                   />
                 );
-              })}
-            </div>
-          </>
+              })
+            ) : (
+              <Key
+                character={"RESET"}
+                isWrong={false}
+                processKeyUp={this.resetGame}
+              />
+            )}
+          </div>
         )}
       </div>
     );
