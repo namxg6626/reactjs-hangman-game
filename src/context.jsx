@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  defaultQuestions,
-  getFirebaseQuestions,
-  getFirebaseLeaderBoard
-} from "./questions";
+import { defaultQuestions, getFirebaseQuestions } from "./questions";
 
 let questions = defaultQuestions;
 
@@ -14,24 +10,23 @@ class ContextProvider extends Component {
     super(props);
     this.state = {
       questionIndex: 0,
-      question: this.getQuestion(0), // index of questions
+      question: this.getQuestion(0),
       answer: this.getAnswer(0),
       wrongAnswers: 0,
       wrongKeys: [], // array of keyCode transformed to character
       hiddenText: this.toHiddenText(this.getAnswer(0)),
       loading: true,
-      isLose: false
+      isLose: false,
     };
-    this.toHiddenText = this.toHiddenText.bind(this);
   }
 
   componentDidMount() {
     getFirebaseQuestions()
-      .then(result => {
+      .then((result) => {
         questions = result;
         this.resetGame();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("can't connect to firebase database!!!");
       });
   }
@@ -46,13 +41,17 @@ class ContextProvider extends Component {
     return strSrc.replace(regex, "_");
   }
 
-  showCharacters = (...characters) => {
-    return new Promise(resolve => {
+  showCharacters = (character) => {
+    // chữ a
+    return new Promise((resolve) => {
       const { answer, hiddenText } = this.state;
       const answerLowerCase = answer.toLowerCase();
 
+      // lấy id của chữ a
+      // for để láy id
+      // nhưng mà cái mỗi lần cái l ns nbgje thì nó lại chạy for
       const characterIndexes = answerLowerCase.split("").map((char, id) => {
-        if (characters.includes(char)) return id;
+        if (char === character) return id;
       });
 
       const result = hiddenText
@@ -64,7 +63,7 @@ class ContextProvider extends Component {
         .join("");
       this.setState(
         {
-          hiddenText: result
+          hiddenText: result,
         },
         resolve
       );
@@ -81,60 +80,61 @@ class ContextProvider extends Component {
 
   // public
   nextQuestion = () => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let { questionIndex: newQuestionIndex } = this.state;
       newQuestionIndex += 1;
       if (newQuestionIndex >= questions.length) {
         alert("You Won!!!!!!");
-        this.resetGame().then(nothing => resolve());
-        return;
-      }
-      this.setState(
-        {
-          questionIndex: newQuestionIndex,
-          question: this.getQuestion(newQuestionIndex),
-          answer: this.getAnswer(newQuestionIndex),
-          hiddenText: this.toHiddenText(this.getAnswer(newQuestionIndex)),
-          wrongKeys: []
-        },
-        resolve
-      );
+        this.resetGame().then(resolve);
+      } else
+        this.setState(
+          {
+            questionIndex: newQuestionIndex,
+            question: this.getQuestion(newQuestionIndex),
+            answer: this.getAnswer(newQuestionIndex),
+            hiddenText: this.toHiddenText(this.getAnswer(newQuestionIndex)),
+            wrongKeys: [],
+          },
+          resolve
+        );
     });
   };
 
   // public
-  increaseWrongAnswers = wrongKey => {
-    return new Promise(resolve => {
+  increaseWrongAnswers = (wrongKey) => {
+    return new Promise((resolve) => {
       const { wrongAnswers } = this.state;
       if (wrongAnswers === 5) {
-        this.setState({
-          wrongAnswers: 6,
-          isLose: true
-        });
-        return;
-      }
-      this.setState(
-        {
-          wrongAnswers: wrongAnswers === 6 ? 6 : wrongAnswers + 1,
-          wrongKeys: [...this.state.wrongKeys, wrongKey]
-        },
-        resolve
-      );
+        this.setState(
+          {
+            wrongAnswers: 6,
+            isLose: true,
+          },
+          resolve
+        );
+      } else
+        this.setState(
+          {
+            wrongAnswers: wrongAnswers === 6 ? 6 : wrongAnswers + 1,
+            wrongKeys: [...this.state.wrongKeys, wrongKey],
+          },
+          resolve
+        );
     });
   };
 
-  resetGame = (callback = null) => {
-    return new Promise(resolve => {
+  resetGame = () => {
+    return new Promise((resolve) => {
       this.setState(
         {
           questionIndex: 0,
-          question: this.getQuestion(0), // index of questions
+          question: this.getQuestion(0),
           answer: this.getAnswer(0),
           wrongAnswers: 0,
           hiddenText: this.toHiddenText(this.getAnswer(0)),
           wrongKeys: [], // array of keyCode transformed to character
           loading: false,
-          isLose: false
+          isLose: false,
         },
         resolve
       );
@@ -148,9 +148,9 @@ class ContextProvider extends Component {
           ...this.state,
           increaseWrongAnswers: this.increaseWrongAnswers,
           nextQuestion: this.nextQuestion,
-          toHiddenText: this.toHiddenText.bind(this),
+          toHiddenText: this.toHiddenText,
           showCharacters: this.showCharacters,
-          resetGame: this.resetGame
+          resetGame: this.resetGame,
         }}
       >
         {this.props.children}
@@ -165,7 +165,7 @@ function withConsumer(Component) {
   return function ConsumerWrapper(props) {
     return (
       <ContextConsumer>
-        {value => <Component {...props} context={value}></Component>}
+        {(value) => <Component {...props} context={value}></Component>}
       </ContextConsumer>
     );
   };

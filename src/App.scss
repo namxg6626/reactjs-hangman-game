@@ -25,7 +25,7 @@ body {
 .app {
   width: 100%;
   max-width: 1300px;
-  // background-color: var(--secondary);
+  height: 100vh;
   margin: 0 auto;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -45,13 +45,14 @@ body {
     font-weight: 500;
   }
 
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
   &__split {
     p {
       margin-bottom: 0.5rem;
-      a {
-        text-decoration: none;
-        color: white;
-      }
       i {
         display: inline-block;
         margin-right: 5px;
@@ -123,10 +124,40 @@ body {
         }
       }
       .wrong-key {
-        background-color: var(--warning);
+        background-color: var(--danger);
         border: 1px solid var(--danger);
         border-bottom: 4px solid var(--danger);
       }
+    }
+  }
+}
+
+form {
+  width: 100%;
+  max-width: 330px;
+  margin: 0 auto;
+  // height: calc(100vh - 140px);
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateY(50%) translateX(-50%);
+
+  input {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    border: none;
+    background: inherit;
+    color: white;
+    padding: 0.7rem 0.7rem 0.7rem 0;
+    position: relative;
+    transition: all 0.2s;
+    border-bottom: 4px solid transparent;
+
+    &:focus {
+      outline: none;
+      border-bottom: 4px solid var(--warning);
     }
   }
 }
@@ -143,7 +174,7 @@ body {
     }
     .keyboard {
       max-width: 100%;
-      margin-bottom: 2rem;
+
       .key {
         .button {
           font-size: 1.4rem;
@@ -155,7 +186,7 @@ body {
 }
 
 // note fe + galaxy note
-@media screen and (max-width: 412px) {
+@media screen and (max-width: 576px) {
   .app {
     padding: 0.3rem;
   }
@@ -184,7 +215,7 @@ body {
     }
 
     input:checked + &__split {
-      height: 58px;
+      height: 83px;
     }
 
     &__split h2 {
@@ -209,7 +240,6 @@ body {
 
     .keyboard {
       max-width: 100%;
-      margin-bottom: 2rem;
 
       .key {
         flex-basis: 9%;
@@ -229,7 +259,7 @@ body {
 }
 
 // ip5
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 330px) {
   .app {
     padding: 0.1rem;
   }

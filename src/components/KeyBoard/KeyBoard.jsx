@@ -7,42 +7,38 @@ class KeyBoard extends Component {
     super(props);
     for (let prop in this.props.context) this[prop] = this.props.context[prop];
 
-    const { answer } = this.props.context;
+    const { answer, question, hiddenText } = this.props.context;
     this.state = {
-      question: this.getContextQuestion(),
-      answer: this.getContextAnswer(),
-      hiddenText: this.toHiddenText(answer)
+      question,
+      answer,
+      hiddenText,
     };
-
-    this.getContextAnswer = this.getContextAnswer.bind(this);
-    this.getContextQuestion = this.getContextQuestion.bind(this);
-    this.detectKeyUp = this.detectKeyUp.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { loading } = props.context;
+    const { loading, question, answer, hiddenText } = props.context;
 
     if (!loading) {
       return {
-        question: props.context.question,
-        answer: props.context.answer,
-        hiddenText: props.context.hiddenText
+        question,
+        answer,
+        hiddenText,
       };
     }
     return null;
   }
 
-  detectKeyUp(e) {
+  detectKeyUp = (e) => {
     let key = e.key.toLowerCase();
     const { isLose } = this.props.context;
 
-    // detect only numeric alphabet key, which is consist only 1 char
+    // detect only numeric alphabet key, which is consists only 1 char
     if (/^[\w\W]{1}$/.test(key)) this.processKeyUp(key);
     if (isLose && key === "enter") this.resetGame();
-  }
+  };
 
   // public
-  processKeyUp = key => {
+  processKeyUp = (key) => {
     let { answer } = this.state;
     answer = answer.toLowerCase();
 
@@ -52,35 +48,35 @@ class KeyBoard extends Component {
         await this.showCharacters(key);
         this.setState(
           {
-            hiddenText: this.getContextHiddenText()
+            hiddenText: this.getContextHiddenText(),
           },
           () => {
             let { hiddenText } = this.state;
             if (hiddenText.toLowerCase() === answer)
-              this.nextQuestion().then(nothing => this.refreshState());
+              this.nextQuestion().then(this.refreshState);
           }
         );
       })();
-    else this.increaseWrongAnswers(key).then(nothing => this.refreshState());
+    else this.increaseWrongAnswers(key).then(this.refreshState);
   };
 
-  getContextQuestion() {
+  getContextQuestion = () => {
     return this.props.context.question;
-  }
+  };
 
-  getContextAnswer() {
+  getContextAnswer = () => {
     return this.props.context.answer;
-  }
+  };
 
-  getContextHiddenText() {
+  getContextHiddenText = () => {
     return this.props.context.hiddenText;
-  }
+  };
 
   refreshState = () => {
     this.setState({
       question: this.getContextQuestion(),
       answer: this.getContextAnswer(),
-      hiddenText: this.getContextHiddenText()
+      hiddenText: this.getContextHiddenText(),
     });
   };
 

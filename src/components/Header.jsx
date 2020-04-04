@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Header(props) {
   const { title, fb, github } = props;
@@ -11,7 +12,9 @@ export default function Header(props) {
   return (
     <header className="header">
       <div className="header__split">
-        <h2>{title}</h2>
+        <Link to="/">
+          <h2>{title}</h2>
+        </Link>
         <label htmlFor="expand">ツ About me</label>
       </div>
 
@@ -28,6 +31,12 @@ export default function Header(props) {
           <a href={fb} target="_blank" rel="noopener noreferrer">
             {getNonProtocolLink(fb)}
           </a>
+        </p>
+        <p>
+          <Link to="/contribution">
+            <i className="fas fa-question-circle"></i>
+            Đóng góp câu hỏi
+          </Link>
         </p>
       </div>
     </header>
