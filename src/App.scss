@@ -131,6 +131,30 @@ body {
   }
 }
 
+@media screen and (max-width: 770px) {
+  .virtual-keyboard {
+    .question-block {
+      .question {
+        font-size: 1.7rem;
+      }
+      .answer {
+        font-size: 1.5rem;
+      }
+    }
+    .keyboard {
+      max-width: 100%;
+      margin-bottom: 2rem;
+      .key {
+        .button {
+          font-size: 1.4rem;
+          padding: 0.5rem 0.3rem;
+        }
+      }
+    }
+  }
+}
+
+// note fe + galaxy note
 @media screen and (max-width: 412px) {
   .app {
     padding: 0.3rem;
@@ -175,7 +199,7 @@ body {
   .virtual-keyboard {
     .question-block {
       .question {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
       }
 
       .answer {
@@ -192,31 +216,36 @@ body {
         margin: 0.5%;
 
         .button {
-          font-size: 1rem;
           padding: 0.5rem 0.3rem;
+          border-bottom-width: 3px;
+
+          &:active {
+            border-bottom-width: 3px;
+          }
         }
       }
     }
   }
 }
 
-@media screen and (max-width: 770px) {
+// ip5
+@media screen and (max-width: 320px) {
+  .app {
+    padding: 0.1rem;
+  }
   .virtual-keyboard {
-    .question-block {
-      .question {
-        font-size: 1.7rem;
-      }
-      .answer {
-        font-size: 1.5rem;
-      }
-    }
     .keyboard {
-      max-width: 100%;
-      margin-bottom: 2rem;
       .key {
         .button {
-          font-size: 1.4rem;
-          padding: 0.5rem 0.3rem;
+          padding: 0.2rem;
+          border-bottom-width: 2px;
+
+          &:active {
+            border-bottom-width: 2px;
+          }
+          span {
+            font-size: 1rem;
+          }
         }
       }
     }
