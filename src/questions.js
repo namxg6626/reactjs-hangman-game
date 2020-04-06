@@ -84,6 +84,7 @@ function getFirebaseQuestions() {
     hangmanQst.on("value", (qst) => {
       let questions = [];
       const qstResponse = qst.val();
+
       if (qstResponse) {
         for (let key in qstResponse) questions.push(qstResponse[key]);
       } else questions = defaultQuestions;
@@ -93,6 +94,7 @@ function getFirebaseQuestions() {
         if (a.timestamp < b.timestamp) return 1;
         else return 0;
       });
+
       resolve(questions);
     });
   });

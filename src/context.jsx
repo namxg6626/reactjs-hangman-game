@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { getFirebaseQuestions } from "./questions";
 
-let questions = [];
-
 const AppContext = React.createContext();
 
 class ContextProvider extends Component {
@@ -92,7 +90,7 @@ class ContextProvider extends Component {
       newQuestionIndex += 1;
       if (newQuestionIndex >= questionsList.length) {
         alert("You Won!!!!!!");
-        this.resetGame().then(resolve);
+        this.TEST_resetGame().then(resolve);
       } else
         this.setState(
           {
@@ -148,6 +146,26 @@ class ContextProvider extends Component {
     });
   };
 
+  TEST_resetGame = async () => {
+    const newQuestionsList = await getFirebaseQuestions();
+    const { question, answer } = newQuestionsList[0];
+
+    this.setState(
+      {
+        questionsList: newQuestionsList,
+        questionIndex: 0,
+        question,
+        answer,
+        wrongAnswers: 0,
+        hiddenText: this.toHiddenText(answer),
+        wrongKeys: [], // array of keyCode transformed to character
+        loading: false,
+        isLose: false,
+      },
+      () => console.log(this.state)
+    );
+  };
+
   render() {
     return (
       <AppContext.Provider
@@ -157,7 +175,7 @@ class ContextProvider extends Component {
           nextQuestion: this.nextQuestion,
           toHiddenText: this.toHiddenText,
           showCharacters: this.showCharacters,
-          resetGame: this.resetGame,
+          resetGame: this.TEST_resetGame,
         }}
       >
         {this.props.children}
