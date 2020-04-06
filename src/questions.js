@@ -93,8 +93,6 @@ function getFirebaseQuestions() {
         if (a.timestamp < b.timestamp) return 1;
         else return 0;
       });
-
-      console.log(questions);
       resolve(questions);
     });
   });
