@@ -84,7 +84,6 @@ class KeyBoard extends Component {
     const { question, hiddenText, answer } = this.state;
     const { wrongKeys, loading, isLose } = this.props.context;
     !loading && window.addEventListener("keyup", this.detectKeyUp);
-    console.log(this.props.context);
 
     return (
       <div className="virtual-keyboard">
