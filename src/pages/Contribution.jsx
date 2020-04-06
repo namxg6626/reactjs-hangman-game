@@ -1,28 +1,31 @@
 import React from "react";
-import { uploadQuestion } from "../questions";
+import { uploadQuestionDirectly } from "../questions";
 import XRegExp from "xregexp";
 
 export default function Contribution() {
   const handleClick = (e) => {
     e.preventDefault();
-    const regex = new XRegExp(`^[\\pL\\w\\s]+$`);
+    const regexUniCode = new XRegExp(`^[\\pL\\W\\s]+$`);
+    const regex = /^[\w\s]+$/;
     const form = document.contribution;
-    let inputControl = {};
     let pass = true;
     let questionObj = {};
 
     for (let prop of ["question", "answer", "author"]) {
-      inputControl[prop] = form[prop];
-      inputControl[prop].value = form[prop].value.trim();
-      if (!regex.test(inputControl[prop].value)) pass = false;
+      questionObj[prop] = form[prop].value.trim();
+      if (!regexUniCode.test(form[prop].value)) pass = false;
     }
+    // not unicode char in answer
+    if (!regex.test(form.answer.value)) pass = false;
     if (pass) {
-      for (let prop in inputControl)
-        questionObj[prop] = inputControl[prop].value;
+      for (let prop in questionObj) form[prop].value = "";
 
-      uploadQuestion(questionObj);
+      questionObj.timestamp = parseInt(Date.now() / 1_000);
+      console.log(questionObj);
+
+      uploadQuestionDirectly(questionObj);
       alert("Thanks " + questionObj.author);
-    } else alert("Đã bảo là không có kí tự đặc biệt mà :((");
+    } else alert("Phần đáp án không chứa kí tự có dấu và kí tự đặc biệt");
   };
 
   return (
@@ -51,10 +54,10 @@ export default function Contribution() {
         />
         <input type="submit" value="Xác nhận" onClick={handleClick} />
         <ul>
-          <li>Các thông tin chỉ bao gồm chữ, số và dấu cách</li>
+          <li>Câu hỏi và tác giả sẽ chấp nhận kí tự đặc biệt và unicode</li>
+          <li>Phần đáp án chỉ chấp nhận tiếng Việt không dấu</li>
           <li>
-            Câu hỏi trùng nhau sẽ bị ghi đè (kể cả khác đáp án). Sẽ tìm cách
-            khắc phục sớm :((
+            Tạm thời tất cả các câu hỏi sẽ được duyệt ngay sau khi xác nhận
           </li>
         </ul>
       </form>

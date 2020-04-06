@@ -2,10 +2,12 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 const defaultQuestions = [
-  { "Guess a programming language": "Javascript" },
-  { "Guess a programming language": "COBOL" },
-  { "By whom windows was invented": "Bill Gate" },
-  { "Lorem ipsum dolor sit amet consectetur.": "Lorem ipsum dolor" },
+  {
+    author: "Default",
+    question: "Default",
+    answer: "Default",
+    timestamp: Date.now(),
+  },
 ];
 
 const defaultLeaderBoard = [
@@ -58,16 +60,41 @@ function uploadQuestion(questionObj) {
   });
 }
 
+function uploadQuestionDirectly(questionObj) {
+  return new Promise((resolve) => {
+    const { question, answer, author, timestamp } = questionObj;
+    hangmanQst
+      .push(
+        {
+          question,
+          answer,
+          author,
+          timestamp,
+        },
+        (err) => {
+          console.error(err);
+        }
+      )
+      .then(resolve);
+  });
+}
+
 function getFirebaseQuestions() {
   return new Promise((resolve) => {
     hangmanQst.on("value", (qst) => {
       let questions = [];
-      if (qst.val()) {
-        questions = qst.val();
-        questions = Object.entries(questions).map((question) => {
-          return { [question[0]]: question[1] };
-        });
+      const qstResponse = qst.val();
+      if (qstResponse) {
+        for (let key in qstResponse) questions.push(qstResponse[key]);
       } else questions = defaultQuestions;
+
+      questions = questions.sort((a, b) => {
+        if (a.timestamp > b.timestamp) return -1;
+        if (a.timestamp < b.timestamp) return 1;
+        else return 0;
+      });
+
+      console.log(questions);
       resolve(questions);
     });
   });
@@ -85,8 +112,15 @@ function getFirebaseLeaderBoard() {
 }
 
 export {
-  defaultQuestions,
   getFirebaseQuestions,
   getFirebaseLeaderBoard,
   uploadQuestion,
+  uploadQuestionDirectly,
 };
+
+// hangmanContributions.on("value", (snap) => {
+//   const snapVal = snap.val();
+//   let result = [];
+//   for (let key in snapVal) result.push(snapVal[key]);
+//   console.log(result);
+// });

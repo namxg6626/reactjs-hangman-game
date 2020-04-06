@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { defaultQuestions, getFirebaseQuestions } from "./questions";
+import { getFirebaseQuestions } from "./questions";
 
-let questions = defaultQuestions;
+let questions = [];
 
 const AppContext = React.createContext();
 
@@ -9,12 +9,13 @@ class ContextProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      questionsList: [],
       questionIndex: 0,
-      question: this.getQuestion(0),
-      answer: this.getAnswer(0),
+      question: "",
+      answer: "",
       wrongAnswers: 0,
-      wrongKeys: [], // array of keyCode transformed to character
-      hiddenText: this.toHiddenText(this.getAnswer(0)),
+      wrongKeys: [],
+      hiddenText: "",
       loading: true,
       isLose: false,
     };
@@ -23,11 +24,21 @@ class ContextProvider extends Component {
   componentDidMount() {
     getFirebaseQuestions()
       .then((result) => {
-        questions = result;
-        this.resetGame();
+        const questionsList = result;
+        const question = result[0].question;
+        const answer = result[0].answer;
+        const hiddenText = this.toHiddenText(answer);
+
+        this.setState({
+          questionsList,
+          question,
+          answer,
+          hiddenText,
+          loading: false,
+        });
       })
       .catch((err) => {
-        console.log("can't connect to firebase database!!!");
+        console.log(err);
       });
   }
 
@@ -41,17 +52,13 @@ class ContextProvider extends Component {
     return strSrc.replace(regex, "_");
   }
 
-  showCharacters = (character) => {
-    // chữ a
+  showCharacters = (...character) => {
     return new Promise((resolve) => {
       const { answer, hiddenText } = this.state;
       const answerLowerCase = answer.toLowerCase();
 
-      // lấy id của chữ a
-      // for để láy id
-      // nhưng mà cái mỗi lần cái l ns nbgje thì nó lại chạy for
       const characterIndexes = answerLowerCase.split("").map((char, id) => {
-        if (char === character) return id;
+        if (character.includes(char)) return id;
       });
 
       const result = hiddenText
@@ -70,13 +77,13 @@ class ContextProvider extends Component {
     });
   };
 
-  getQuestion(index) {
-    return Object.keys(questions[index]).toString();
-  }
+  getQuestion = (index) => {
+    return this.state.questionsList[index].question;
+  };
 
-  getAnswer(index) {
-    return Object.values(questions[index]).toString();
-  }
+  getAnswer = (index) => {
+    return this.questionsList[index].answer;
+  };
 
   // public
   nextQuestion = () => {
