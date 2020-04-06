@@ -82,15 +82,15 @@ class ContextProvider extends Component {
   };
 
   getAnswer = (index) => {
-    return this.questionsList[index].answer;
+    return this.state.questionsList[index].answer;
   };
 
   // public
   nextQuestion = () => {
     return new Promise((resolve) => {
-      let { questionIndex: newQuestionIndex } = this.state;
+      let { questionIndex: newQuestionIndex, questionsList } = this.state;
       newQuestionIndex += 1;
-      if (newQuestionIndex >= questions.length) {
+      if (newQuestionIndex >= questionsList.length) {
         alert("You Won!!!!!!");
         this.resetGame().then(resolve);
       } else

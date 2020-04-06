@@ -137,10 +137,7 @@ form {
   max-width: 330px;
   margin: 0 auto;
   // height: calc(100vh - 140px);
-  position: absolute;
-  bottom: 50%;
-  left: 50%;
-  transform: translateY(50%) translateX(-50%);
+  margin-top: 5rem;
 
   input {
     display: block;
