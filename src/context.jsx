@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { getFirebaseQuestions } from "./questions";
 
 const AppContext = React.createContext();
 
@@ -20,11 +19,12 @@ class ContextProvider extends Component {
   }
 
   componentDidMount() {
-    getFirebaseQuestions()
-      .then((result) => {
-        const questionsList = result;
-        const question = result[0].question;
-        const answer = result[0].answer;
+    fetch("https://express-hangman.herokuapp.com/get-question")
+      .then((result) => result.json())
+      .then((json) => {
+        const questionsList = json;
+        const question = json[0].question;
+        const answer = json[0].answer;
         const hiddenText = this.toHiddenText(answer);
 
         this.setState({
@@ -34,9 +34,6 @@ class ContextProvider extends Component {
           hiddenText,
           loading: false,
         });
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 
@@ -147,7 +144,9 @@ class ContextProvider extends Component {
   };
 
   TEST_resetGame = async () => {
-    const newQuestionsList = await getFirebaseQuestions();
+    const newQuestionsList = await fetch(
+      "https://express-hangman.herokuapp.com/get-question"
+    );
     const { question, answer } = newQuestionsList[0];
 
     this.setState(

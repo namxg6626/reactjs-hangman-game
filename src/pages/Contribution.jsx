@@ -1,12 +1,12 @@
 import React from "react";
-import { uploadQuestionDirectly } from "../questions";
 import XRegExp from "xregexp";
+import axios from "axios";
 
 export default function Contribution() {
   const handleClick = (e) => {
     e.preventDefault();
     const regexUniCode = new XRegExp(`^[\\pL\\W\\s]+$`);
-    const regex = /^[\w\s]+$/;
+    const regex = /^[\w\W\s]+$/;
     const form = document.contribution;
     let pass = true;
     let questionObj = {};
@@ -15,17 +15,30 @@ export default function Contribution() {
       questionObj[prop] = form[prop].value.trim();
       if (!regexUniCode.test(form[prop].value)) pass = false;
     }
+
     // not unicode char in answer
-    if (!regex.test(form.answer.value)) pass = false;
+    if (!regex.test(questionObj.answer)) pass = false;
+
     if (pass) {
       for (let prop in questionObj) form[prop].value = "";
 
-      questionObj.timestamp = parseInt(Date.now() / 1_000);
-      console.log(questionObj);
+      const { author, question, answer } = questionObj;
+      axios({
+        method: "POST",
+        url: "https://express-hangman.herokuapp.com/upload-question",
+        data: {
+          author,
+          question,
+          answer,
+        },
+      }).then((result) => {
+        console.log(result);
+      });
 
-      uploadQuestionDirectly(questionObj);
-      alert("Thanks " + questionObj.author);
-    } else alert("Phần đáp án không chứa kí tự có dấu và kí tự đặc biệt");
+      alert("Thanks " + author);
+    } else {
+      alert("Bỏ trống trường nào đó hoặc nhập sai dữ liệu");
+    }
   };
 
   return (
