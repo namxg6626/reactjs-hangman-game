@@ -150,20 +150,17 @@ class ContextProvider extends Component {
     const newQuestionsList = await response.json();
     const { question, answer } = newQuestionsList[0];
 
-    this.setState(
-      {
-        questionsList: newQuestionsList,
-        questionIndex: 0,
-        question,
-        answer,
-        wrongAnswers: 0,
-        hiddenText: this.toHiddenText(answer),
-        wrongKeys: [], // array of keyCode transformed to character
-        loading: false,
-        isLose: false,
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      questionsList: newQuestionsList,
+      questionIndex: 0,
+      question,
+      answer,
+      wrongAnswers: 0,
+      hiddenText: this.toHiddenText(answer),
+      wrongKeys: [], // array of keyCode transformed to character
+      loading: false,
+      isLose: false,
+    });
   };
 
   render() {
