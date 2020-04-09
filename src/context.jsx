@@ -87,7 +87,7 @@ class ContextProvider extends Component {
       newQuestionIndex += 1;
       if (newQuestionIndex >= questionsList.length) {
         alert("You Won!!!!!!");
-        this.TEST_resetGame().then(resolve);
+        this.resetGame().then(resolve);
       } else
         this.setState(
           {
@@ -125,25 +125,7 @@ class ContextProvider extends Component {
     });
   };
 
-  resetGame = () => {
-    return new Promise((resolve) => {
-      this.setState(
-        {
-          questionIndex: 0,
-          question: this.getQuestion(0),
-          answer: this.getAnswer(0),
-          wrongAnswers: 0,
-          hiddenText: this.toHiddenText(this.getAnswer(0)),
-          wrongKeys: [], // array of keyCode transformed to character
-          loading: false,
-          isLose: false,
-        },
-        resolve
-      );
-    });
-  };
-
-  TEST_resetGame = async () => {
+  resetGame = async () => {
     const response = await fetch(
       "https://express-hangman.herokuapp.com/get-question"
     );
@@ -172,7 +154,7 @@ class ContextProvider extends Component {
           nextQuestion: this.nextQuestion,
           toHiddenText: this.toHiddenText,
           showCharacters: this.showCharacters,
-          resetGame: this.TEST_resetGame,
+          resetGame: this.resetGame,
         }}
       >
         {this.props.children}
