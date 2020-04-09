@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withConsumer } from "../../context";
 import Key from "./Key";
+import XRegExp from "xregexp";
 
 class KeyBoard extends Component {
   constructor(props) {
@@ -31,9 +32,17 @@ class KeyBoard extends Component {
   detectKeyUp = (e) => {
     let key = e.key.toLowerCase();
     const { isLose } = this.props.context;
+    const unicodeKey = XRegExp(`^[\\pL]$`);
+    const normalKey = /^[\w]$/;
 
-    // detect only numeric alphabet key, which is consists only 1 char
-    if (/^[\w\W]{1}$/.test(key)) this.processKeyUp(key);
+    // ignore unicode key
+    if (unicodeKey.test(key) && !normalKey.test(key)) {
+      alert("Vui lòng tắt unicode :(");
+      return;
+    }
+
+    // detect only numeric alphabet key, which is consists of only 1 char
+    if (normalKey.test(key)) this.processKeyUp(key);
     if (isLose && key === "enter") this.resetGame();
   };
 
@@ -103,25 +112,27 @@ class KeyBoard extends Component {
         {!loading && (
           <div className="keyboard">
             {!isLose ? (
-              "qwertyuiopasdfghjkl;zxcvbnm,.".split("").map((key, id) => {
-                if (wrongKeys.includes(key))
+              "1234567890qwertyuiopasdfghjkl;zxcvbnm,."
+                .split("")
+                .map((key, id) => {
+                  if (wrongKeys.includes(key))
+                    return (
+                      <Key
+                        key={id}
+                        character={key}
+                        isWrong={true}
+                        processKeyUp={this.processKeyUp.bind(this, key)}
+                      />
+                    );
                   return (
                     <Key
                       key={id}
                       character={key}
-                      isWrong={true}
+                      isWrong={false}
                       processKeyUp={this.processKeyUp.bind(this, key)}
                     />
                   );
-                return (
-                  <Key
-                    key={id}
-                    character={key}
-                    isWrong={false}
-                    processKeyUp={this.processKeyUp.bind(this, key)}
-                  />
-                );
-              })
+                })
             ) : (
               <Key
                 character={"RESET"}
