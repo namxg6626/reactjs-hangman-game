@@ -5,8 +5,8 @@ import axios from "axios";
 export default function Contribution() {
   const handleClick = (e) => {
     e.preventDefault();
-    const regexUniCode = new XRegExp(`^[\\pL\\W\\s]+$`);
-    const regex = /^[\w\W\s]+$/;
+    const regexUniCode = XRegExp(`^[\\pL\\W\\s]+$`);
+    const regex = /^[\w\s]+$/;
     const form = document.contribution;
     let pass = true;
     let questionObj = {};
