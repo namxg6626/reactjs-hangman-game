@@ -149,7 +149,6 @@ class ContextProvider extends Component {
     );
     const newQuestionsList = await response.json();
     const { question, answer } = newQuestionsList[0];
-    console.log(newQuestionsList);
 
     this.setState(
       {
