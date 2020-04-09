@@ -144,10 +144,12 @@ class ContextProvider extends Component {
   };
 
   TEST_resetGame = async () => {
-    const newQuestionsList = await fetch(
+    const response = await fetch(
       "https://express-hangman.herokuapp.com/get-question"
     );
+    const newQuestionsList = await response.json();
     const { question, answer } = newQuestionsList[0];
+    console.log(newQuestionsList);
 
     this.setState(
       {
