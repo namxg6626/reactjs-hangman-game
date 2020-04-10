@@ -112,27 +112,25 @@ class KeyBoard extends Component {
         {!loading && (
           <div className="keyboard">
             {!isLose ? (
-              "1234567890qwertyuiopasdfghjkl;zxcvbnm,."
-                .split("")
-                .map((key, id) => {
-                  if (wrongKeys.includes(key))
-                    return (
-                      <Key
-                        key={id}
-                        character={key}
-                        isWrong={true}
-                        processKeyUp={this.processKeyUp.bind(this, key)}
-                      />
-                    );
+              "qwertyuiopasdfghjkl;zxcvbnm,.".split("").map((key, id) => {
+                if (wrongKeys.includes(key))
                   return (
                     <Key
                       key={id}
                       character={key}
-                      isWrong={false}
+                      isWrong={true}
                       processKeyUp={this.processKeyUp.bind(this, key)}
                     />
                   );
-                })
+                return (
+                  <Key
+                    key={id}
+                    character={key}
+                    isWrong={false}
+                    processKeyUp={this.processKeyUp.bind(this, key)}
+                  />
+                );
+              })
             ) : (
               <Key
                 character={"RESET"}
