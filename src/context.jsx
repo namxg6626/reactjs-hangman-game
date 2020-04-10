@@ -10,6 +10,7 @@ class ContextProvider extends Component {
       questionIndex: 0,
       question: "",
       answer: "",
+      author: "",
       wrongAnswers: 0,
       wrongKeys: [],
       hiddenText: "",
@@ -25,12 +26,14 @@ class ContextProvider extends Component {
         const questionsList = json;
         const question = json[0].question;
         const answer = json[0].answer;
+        const author = json[0].author;
         const hiddenText = this.toHiddenText(answer);
 
         this.setState({
           questionsList,
           question,
           answer,
+          author,
           hiddenText,
           loading: false,
         });
@@ -72,12 +75,16 @@ class ContextProvider extends Component {
     });
   };
 
-  getQuestion = (index) => {
-    return this.state.questionsList[index].question;
+  getQuestion = (id) => {
+    return this.state.questionsList[id].question;
   };
 
-  getAnswer = (index) => {
-    return this.state.questionsList[index].answer;
+  getAnswer = (id) => {
+    return this.state.questionsList[id].answer;
+  };
+
+  getAuthor = (id) => {
+    return this.state.questionsList[id].author;
   };
 
   // public
@@ -94,6 +101,7 @@ class ContextProvider extends Component {
             questionIndex: newQuestionIndex,
             question: this.getQuestion(newQuestionIndex),
             answer: this.getAnswer(newQuestionIndex),
+            author: this.getAuthor(newQuestionIndex),
             hiddenText: this.toHiddenText(this.getAnswer(newQuestionIndex)),
             wrongKeys: [],
           },
@@ -126,17 +134,19 @@ class ContextProvider extends Component {
   };
 
   resetGame = async () => {
+    window.removeEventListener("keyup", () => {});
     const response = await fetch(
       "https://express-hangman.herokuapp.com/get-question"
     );
     const newQuestionsList = await response.json();
-    const { question, answer } = newQuestionsList[0];
+    const { question, answer, author } = newQuestionsList[0];
 
     this.setState({
       questionsList: newQuestionsList,
       questionIndex: 0,
       question,
       answer,
+      author,
       wrongAnswers: 0,
       hiddenText: this.toHiddenText(answer),
       wrongKeys: [], // array of keyCode transformed to character

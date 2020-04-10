@@ -5,7 +5,7 @@ import axios from "axios";
 export default function Contribution() {
   const handleClick = (e) => {
     e.preventDefault();
-    const regexUniCode = XRegExp(`^[\\pL\\W\\s]+$`);
+    const regexAnswer = XRegExp(`^[\\pL\\sa-z]+$`, "i");
     const regex = /^[\w\s]+$/;
     const form = document.contribution;
     let pass = true;
@@ -13,10 +13,10 @@ export default function Contribution() {
 
     for (let prop of ["question", "answer", "author"]) {
       questionObj[prop] = form[prop].value.trim();
-      if (!regexUniCode.test(form[prop].value)) pass = false;
+      if (!regexAnswer.test(form[prop].value)) pass = false;
     }
 
-    // not unicode char in answer
+    // not unicode char, number in answer
     if (!regex.test(questionObj.answer)) pass = false;
 
     if (pass) {

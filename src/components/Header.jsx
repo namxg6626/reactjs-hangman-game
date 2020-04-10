@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { withConsumer } from "../context";
 
-export default function Header(props) {
+function Header(props) {
   const { title, fb, github } = props;
-
+  const { author } = props.context;
   function getNonProtocolLink(linkWithProtocol) {
     const regex = /https?:\/\/([\D\d]+)/;
     return regex.exec(linkWithProtocol)[1];
@@ -14,6 +15,7 @@ export default function Header(props) {
       <div className="header__split">
         <Link to="/">
           <h2>{title}</h2>
+          {author && <p className="author">@{author.replace(/ /g, "")}</p>}
         </Link>
         <label htmlFor="expand">ツ About me</label>
       </div>
@@ -42,3 +44,5 @@ export default function Header(props) {
     </header>
   );
 }
+
+export default withConsumer(Header);

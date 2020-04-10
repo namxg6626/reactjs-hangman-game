@@ -51,8 +51,16 @@ body {
   }
 
   &__split {
+    .author {
+      color: var(--infor);
+      margin: 0;
+      text-align: center;
+      transform: translateX(-4%);
+    }
+
     p {
       margin-bottom: 0.5rem;
+
       i {
         display: inline-block;
         margin-right: 5px;
@@ -79,7 +87,15 @@ body {
       font-size: 2rem;
       color: var(--infor);
       margin-bottom: 1rem;
+      position: relative;
 
+      span {
+        position: absolute;
+        left: 0;
+        bottom: 100%;
+        color: white;
+        font-size: 1.2rem;
+      }
       &::first-letter {
         text-transform: uppercase;
       }
@@ -194,7 +210,7 @@ form {
     &__split:first-child {
       margin-bottom: 1rem;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
     }
 
