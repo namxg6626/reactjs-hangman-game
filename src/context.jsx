@@ -134,7 +134,6 @@ class ContextProvider extends Component {
   };
 
   resetGame = async () => {
-    window.removeEventListener("keyup", () => {});
     const response = await fetch(
       "https://express-hangman.herokuapp.com/get-question"
     );
