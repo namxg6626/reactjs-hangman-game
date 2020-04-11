@@ -68,10 +68,7 @@ export default function Contribution() {
         <input type="submit" value="Xác nhận" onClick={handleClick} />
         <ul>
           <li>Câu hỏi và tác giả sẽ chấp nhận kí tự đặc biệt và unicode</li>
-          <li>Phần đáp án chỉ chấp nhận tiếng Việt không dấu</li>
-          <li>
-            Tạm thời tất cả các câu hỏi sẽ được duyệt ngay sau khi xác nhận
-          </li>
+          <li>Phần đáp án chỉ viết tiếng Việt không dấu, không có số và kí tự đặc biệt</li>
         </ul>
       </form>
     </>
