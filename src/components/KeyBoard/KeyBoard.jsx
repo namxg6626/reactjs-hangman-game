@@ -89,6 +89,10 @@ class KeyBoard extends Component {
     });
   };
 
+  componentWillUnmount() {
+    window.removeEventListener("keyup", this.detectKeyUp);
+  }
+
   render() {
     const { question, hiddenText, answer } = this.state;
     const { wrongKeys, loading, isLose } = this.props.context;
